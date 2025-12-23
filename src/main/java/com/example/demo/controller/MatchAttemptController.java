@@ -5,7 +5,7 @@ import com.example.demo.service.MatchAttemptService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/match-attempts")
+@RequestMapping("/match-attempts")
 public class MatchAttemptController {
 
     private final MatchAttemptService service;
@@ -15,7 +15,7 @@ public class MatchAttemptController {
     }
 
     @PostMapping
-    public MatchAttemptRecord log(@RequestBody MatchAttemptRecord r) {
-        return service.logMatchAttempt(r);
+    public MatchAttemptRecord log(@RequestBody MatchAttemptRecord record) {
+        return service.logMatchAttempt(record);
     }
 }

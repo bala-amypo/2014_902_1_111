@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import com.example.demo.model.MatchAttemptRecord;
+
 public interface MatchAttemptService {
-    void logAttempt(Long studentAId, Long studentBId);
+    MatchAttemptRecord logMatchAttempt(MatchAttemptRecord record);
 }

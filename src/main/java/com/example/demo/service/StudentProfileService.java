@@ -5,8 +5,9 @@ import java.util.List;
 
 public interface StudentProfileService {
 
-    StudentProfile addStudent(StudentProfile student);
+    StudentProfile createStudent(StudentProfile student);
+
+    StudentProfile getStudentById(Long id);
+
     List<StudentProfile> getAllStudents();
-    StudentProfile updateStudent(Long id, StudentProfile student);
-    void deactivateStudent(Long id);
 }

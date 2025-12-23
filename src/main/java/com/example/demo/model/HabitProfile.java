@@ -1,26 +1,50 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
-
-@Entity
 public class HabitProfile {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     private Long studentId;
+    private int studyHoursPerDay;
     private String sleepSchedule;
-    private Integer studyHoursPerDay;
     private String cleanlinessLevel;
     private String noiseTolerance;
-    private String socialPreference;
-    private LocalDateTime updatedAt;
 
-    public HabitProfile() {
-        this.updatedAt = LocalDateTime.now();
+    public Long getStudentId() {
+        return studentId;
     }
 
-    // getters and setters
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
+    }
+
+    public int getStudyHoursPerDay() {
+        return studyHoursPerDay;
+    }
+
+    public void setStudyHoursPerDay(int studyHoursPerDay) {
+        this.studyHoursPerDay = studyHoursPerDay;
+    }
+
+    public String getSleepSchedule() {
+        return sleepSchedule;
+    }
+
+    public void setSleepSchedule(String sleepSchedule) {
+        this.sleepSchedule = sleepSchedule;
+    }
+
+    public String getCleanlinessLevel() {
+        return cleanlinessLevel;
+    }
+
+    public void setCleanlinessLevel(String cleanlinessLevel) {
+        this.cleanlinessLevel = cleanlinessLevel;
+    }
+
+    public String getNoiseTolerance() {
+        return noiseTolerance;
+    }
+
+    public void setNoiseTolerance(String noiseTolerance) {
+        this.noiseTolerance = noiseTolerance;
+    }
 }

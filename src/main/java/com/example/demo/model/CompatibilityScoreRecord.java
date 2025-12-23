@@ -1,25 +1,41 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
-
-@Entity
 public class CompatibilityScoreRecord {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     private Long studentAId;
     private Long studentBId;
-    private Double score;
+    private double score;
     private String compatibilityLevel;
-    private LocalDateTime computedAt;
-    private String detailsJson;
 
-    public CompatibilityScoreRecord() {
-        this.computedAt = LocalDateTime.now();
+    public Long getStudentAId() {
+        return studentAId;
     }
 
-    // getters and setters
+    public void setStudentAId(Long studentAId) {
+        this.studentAId = studentAId;
+    }
+
+    public Long getStudentBId() {
+        return studentBId;
+    }
+
+    public void setStudentBId(Long studentBId) {
+        this.studentBId = studentBId;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    public String getCompatibilityLevel() {
+        return compatibilityLevel;
+    }
+
+    public void setCompatibilityLevel(String compatibilityLevel) {
+        this.compatibilityLevel = compatibilityLevel;
+    }
 }

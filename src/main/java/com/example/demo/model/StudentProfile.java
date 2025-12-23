@@ -1,31 +1,59 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
-
-@Entity
 public class StudentProfile {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(unique = true)
-    private String studentId;
-
-    @Column(unique = true)
-    private String email;
-
+    private Long studentId;
     private String fullName;
+    private String email;
     private String department;
-    private Integer yearLevel;
-    private Boolean active;
-    private LocalDateTime createdAt;
+    private int yearLevel;
+    private boolean active = true;
 
-    public StudentProfile() {
-        this.createdAt = LocalDateTime.now();
-        this.active = true;
+    public Long getStudentId() {
+        return studentId;
     }
 
-    // getters and setters
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public int getYearLevel() {
+        return yearLevel;
+    }
+
+    public void setYearLevel(int yearLevel) {
+        this.yearLevel = yearLevel;
+    }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

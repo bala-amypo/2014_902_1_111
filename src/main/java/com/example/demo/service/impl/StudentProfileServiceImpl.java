@@ -1,48 +1,53 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.StudentProfile;
+import com.example.demo.repository.StudentProfileRepository;
 import com.example.demo.service.StudentProfileService;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentProfileServiceImpl implements StudentProfileService {
-
-    private final List<StudentProfile> students = new ArrayList<>();
-
-    @Override
-    public StudentProfile addStudent(StudentProfile student) {
-        student.setActive(true);
-        students.add(student);
-        return student;
+    
+    private final StudentProfileRepository studentRepo;
+    
+    public StudentProfileServiceImpl(StudentProfileRepository studentRepo) {
+        this.studentRepo = studentRepo;
     }
-
+    
+    @Override
+    public StudentProfile createStudent(StudentProfile student) {
+        if (studentRepo.findByStudentId(student.getStudentId()).isPresent()) {
+            throw new IllegalArgumentException("studentId exists");
+        }
+        if (studentRepo.findByEmail(student.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+        return studentRepo.save(student);
+    }
+    
+    @Override
+    public StudentProfile getStudentById(Long id) {
+        return studentRepo.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+    }
+    
     @Override
     public List<StudentProfile> getAllStudents() {
-        return students;
+        return studentRepo.findAll();
     }
-
+    
     @Override
-    public StudentProfile updateStudent(Long id, StudentProfile updated) {
-        for (StudentProfile s : students) {
-            if (s.getStudentId().equals(id)) {
-                s.setFullName(updated.getFullName());
-                s.setDepartment(updated.getDepartment());
-                s.setYearLevel(updated.getYearLevel());
-                return s;
-            }
-        }
-        return null;
+    public Optional<StudentProfile> findByStudentId(String studentId) {
+        return studentRepo.findByStudentId(studentId);
     }
-
+    
     @Override
-    public void deactivateStudent(Long id) {
-        for (StudentProfile s : students) {
-            if (s.getStudentId().equals(id)) {
-                s.setActive(false);
-            }
-        }
+    public StudentProfile updateStudentStatus(Long id, boolean active) {
+        StudentProfile student = getStudentById(id);
+        student.setActive(active);
+        return studentRepo.save(student);
     }
 }

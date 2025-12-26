@@ -2,32 +2,47 @@ package com.example.demo.controller;
 
 import com.example.demo.model.StudentProfile;
 import com.example.demo.service.StudentProfileService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/students")
+@RequestMapping("/api/students")
+@Tag(name = "Student Profiles", description = "Student profile management")
 public class StudentController {
-
+    
     private final StudentProfileService studentService;
-
+    
     public StudentController(StudentProfileService studentService) {
         this.studentService = studentService;
     }
-
+    
     @PostMapping
-    public StudentProfile add(@RequestBody StudentProfile student) {
-        return studentService    .addStudent(student);
+    public ResponseEntity<StudentProfile> create(@RequestBody StudentProfile student) {
+        return ResponseEntity.ok(studentService.createStudent(student));
     }
-
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<StudentProfile> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(studentService.getStudentById(id));
+    }
+    
     @GetMapping
-    public List<StudentProfile> all() {
-        return studentService.getAllStudents();
+    public ResponseEntity<List<StudentProfile>> getAll() {
+        return ResponseEntity.ok(studentService.getAllStudents());
     }
-
-    @PutMapping("/{id}")
-    public StudentProfile update(@PathVariable Long id, @RequestBody StudentProfile student) {
-        return studentService.updateStudent(id, student);
+    
+    @PutMapping("/{id}/status")
+    public ResponseEntity<StudentProfile> updateStatus(@PathVariable Long id, @RequestParam boolean active) {
+        return ResponseEntity.ok(studentService.updateStudentStatus(id, active));
+    }
+    
+    @GetMapping("/lookup/{studentId}")
+    public ResponseEntity<StudentProfile> lookupByStudentId(@PathVariable String studentId) {
+        Optional<StudentProfile> student = studentService.findByStudentId(studentId);
+        return student.map(ResponseEntity::ok)
+                     .orElse(ResponseEntity.notFound().build());
     }
 }

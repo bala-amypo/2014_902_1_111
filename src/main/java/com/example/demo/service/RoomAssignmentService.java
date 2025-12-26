@@ -1,28 +1,12 @@
 package com.example.demo.service;
 
 import com.example.demo.model.RoomAssignmentRecord;
-import com.example.demo.repository.RoomAssignmentRecordRepository;
-import com.example.demo.repository.StudentProfileRepository;
-import org.springframework.stereotype.Service;
+import java.util.List;
 
-@Service
-public class RoomAssignmentService {
-
-    private final RoomAssignmentRecordRepository repo;
-    private final StudentProfileRepository studentRepo;
-
-    public RoomAssignmentService(
-            RoomAssignmentRecordRepository repo,
-            StudentProfileRepository studentRepo) {
-        this.repo = repo;
-        this.studentRepo = studentRepo;
-    }
-
-    public RoomAssignmentRecord assignRoom(RoomAssignmentRecord r) {
-        if (!studentRepo.findById(r.getStudentAId()).get().getActive()
-         || !studentRepo.findById(r.getStudentBId()).get().getActive()) {
-            throw new IllegalArgumentException("both students must be active");
-        }
-        return repo.save(r);
-    }
+public interface RoomAssignmentService {
+    RoomAssignmentRecord assignRoom(RoomAssignmentRecord assignment);
+    RoomAssignmentRecord getAssignmentById(Long id);
+    List<RoomAssignmentRecord> getAssignmentsByStudent(Long studentId);
+    List<RoomAssignmentRecord> getAllAssignments();
+    RoomAssignmentRecord updateStatus(Long id, String status);
 }

@@ -1,5 +1,7 @@
-package com.example.demo.model;
+package com.example.demo.security;
 
 public enum Role {
-    STUDENT, ADMIN
+    STUDENT_VIEWER,
+    HOSTEL_MANAGER,
+    ADMIN
 }

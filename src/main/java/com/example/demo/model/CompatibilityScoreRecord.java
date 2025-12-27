@@ -25,7 +25,7 @@ public class CompatibilityScoreRecord {
     @Column(name = "computed_at")
     private LocalDateTime computedAt = LocalDateTime.now();
     
-    @Column(name = "details_json", columnDefinition = "TEXT")
+    @Column(name = "details_json")
     private String detailsJson;
     
     public enum CompatibilityLevel { LOW, MEDIUM, HIGH, EXCELLENT }

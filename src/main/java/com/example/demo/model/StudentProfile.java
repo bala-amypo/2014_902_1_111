@@ -17,9 +17,9 @@ public class StudentProfile {
 
     private HabitProfile habitProfile;
 
-    public Student() {}
+    public StudentProfile() {}
 
-    public Student(String studentId, String name, String email, HabitProfile habitProfile) {
+    public StudentProfile(String studentId, String name, String email, HabitProfile habitProfile) {
         this.studentId = studentId;
         this.name = name;
         this.email = email;

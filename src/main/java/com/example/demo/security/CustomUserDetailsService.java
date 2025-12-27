@@ -29,12 +29,4 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new User(username, password, 
             Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
     }
-    
-    public void addUser(String username, String password) {
-        users.put(username, password);
-    }
-    
-    public boolean userExists(String username) {
-        return users.containsKey(username);
-    }
 }

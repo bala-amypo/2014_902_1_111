@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Student;
+import com.example.demo.model.StudentProfile;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.service.MatchService;
 import org.springframework.http.HttpStatus;

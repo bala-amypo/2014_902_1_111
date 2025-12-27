@@ -1,48 +1,57 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.StudentProfile;
-import com.example.demo.service.StudentProfileService;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import com.example.demo.model.Student;
+import com.example.demo.repository.StudentRepository;
+import com.example.demo.service.MatchService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/students")
-@Tag(name = "Student Profiles", description = "Student profile management")
+@RequestMapping("/students")
 public class StudentController {
-    
-    private final StudentProfileService studentService;
-    
-    public StudentController(StudentProfileService studentService) {
-        this.studentService = studentService;
+
+    private final StudentRepository repository;
+    private final MatchService matchService;
+
+    public StudentController(StudentRepository repository, MatchService matchService) {
+        this.repository = repository;
+        this.matchService = matchService;
     }
-    
+
+    // Add student
     @PostMapping
-    public ResponseEntity<StudentProfile> create(@RequestBody StudentProfile student) {
-        return ResponseEntity.ok(studentService.createStudent(student));
+    public ResponseEntity<String> addStudent(@RequestBody Student student) {
+
+        if (repository.existsById(student.getStudentId())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Student ID already exists");
+        }
+
+        if (repository.existsByEmail(student.getEmail())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Email already exists");
+        }
+
+        repository.save(student);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Student added successfully");
     }
-    
-    @GetMapping("/{id}")
-    public ResponseEntity<StudentProfile> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(studentService.getStudentById(id));
-    }
-    
-    @GetMapping
-    public ResponseEntity<List<StudentProfile>> getAll() {
-        return ResponseEntity.ok(studentService.getAllStudents());
-    }
-    
-    @PutMapping("/{id}/status")
-    public ResponseEntity<StudentProfile> updateStatus(@PathVariable Long id, @RequestParam boolean active) {
-        return ResponseEntity.ok(studentService.updateStudentStatus(id, active));
-    }
-    
-    @GetMapping("/lookup/{studentId}")
-    public ResponseEntity<StudentProfile> lookupByStudentId(@PathVariable String studentId) {
-        Optional<StudentProfile> student = studentService.findByStudentId(studentId);
-        return student.map(ResponseEntity::ok)
-                     .orElse(ResponseEntity.notFound().build());
+
+    // Compatibility check
+    @GetMapping("/match")
+    public ResponseEntity<Integer> match(
+            @RequestParam String id1,
+            @RequestParam String id2) {
+
+        Student s1 = repository.findById(id1);
+        Student s2 = repository.findById(id2);
+
+        if (s1 == null || s2 == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        int score = matchService.calculateCompatibility(s1, s2);
+        return ResponseEntity.ok(score);
     }
 }

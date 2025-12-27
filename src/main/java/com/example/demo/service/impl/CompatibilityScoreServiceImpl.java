@@ -34,22 +34,23 @@ public class CompatibilityScoreServiceImpl implements CompatibilityScoreService 
             .orElseThrow(() -> new ResourceNotFoundException("Habit profile not found for student B"));
         
         Optional<CompatibilityScoreRecord> existing = scoreRepo.findByStudentAIdAndStudentBId(studentAId, studentBId);
-        if (existing.isPresent()) {
-            CompatibilityScoreRecord record = existing.get();
-            record.setComputedAt(LocalDateTime.now());
-            return scoreRepo.save(record);
-        }
         
         double score = calculateCompatibilityScore(habitA, habitB);
         CompatibilityScoreRecord.CompatibilityLevel level = determineCompatibilityLevel(score);
         
-        CompatibilityScoreRecord record = new CompatibilityScoreRecord();
-        record.setStudentAId(studentAId);
-        record.setStudentBId(studentBId);
+        CompatibilityScoreRecord record;
+        if (existing.isPresent()) {
+            record = existing.get();
+        } else {
+            record = new CompatibilityScoreRecord();
+            record.setStudentAId(studentAId);
+            record.setStudentBId(studentBId);
+        }
+        
         record.setScore(score);
         record.setCompatibilityLevel(level);
-        record.setDetailsJson("{\"computed\":true}");
         record.setComputedAt(LocalDateTime.now());
+        record.setDetailsJson("{\"computed\":true}");
         
         return scoreRepo.save(record);
     }

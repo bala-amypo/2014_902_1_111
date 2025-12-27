@@ -6,7 +6,6 @@ import com.example.demo.repository.CompatibilityScoreRecordRepository;
 import com.example.demo.repository.MatchAttemptRecordRepository;
 import com.example.demo.service.MatchAttemptService;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,14 +21,11 @@ public class MatchAttemptServiceImpl implements MatchAttemptService {
     
     @Override
     public MatchAttemptRecord logMatchAttempt(MatchAttemptRecord attempt) {
-        attempt.setAttemptedAt(LocalDateTime.now());
-        
         if (attempt.getResultScoreId() != null && scoreRepo.findById(attempt.getResultScoreId()).isPresent()) {
             attempt.setStatus(MatchAttemptRecord.Status.MATCHED);
         } else {
             attempt.setStatus(MatchAttemptRecord.Status.PENDING_REVIEW);
         }
-        
         return matchRepo.save(attempt);
     }
     
@@ -42,7 +38,6 @@ public class MatchAttemptServiceImpl implements MatchAttemptService {
     public MatchAttemptRecord updateAttemptStatus(Long id, String status) {
         MatchAttemptRecord attempt = matchRepo.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Match attempt not found"));
-        
         attempt.setStatus(MatchAttemptRecord.Status.valueOf(status));
         return matchRepo.save(attempt);
     }

@@ -45,6 +45,7 @@ public class HabitProfileServiceImpl implements HabitProfileService {
         return habitRepo.findByStudentId(studentId)
             .orElseThrow(() -> new ResourceNotFoundException("Habit profile not found"));
     }
+    
     @Override
     public Optional<HabitProfile> getHabitById(Long id) {
         return habitRepo.findById(id);

@@ -7,7 +7,6 @@ import com.example.demo.repository.RoomAssignmentRecordRepository;
 import com.example.demo.repository.StudentProfileRepository;
 import com.example.demo.service.RoomAssignmentService;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -32,7 +31,6 @@ public class RoomAssignmentServiceImpl implements RoomAssignmentService {
             throw new IllegalArgumentException("both students must be active");
         }
         
-        assignment.setAssignedAt(LocalDateTime.now());
         assignment.setStatus(RoomAssignmentRecord.Status.ACTIVE);
         return roomRepo.save(assignment);
     }

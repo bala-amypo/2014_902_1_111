@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/habits")
-@Tag(name = "Habit Profiles", description = "Habit profile management")
+@Tag(name = "Habit Profile", description = "Habit profile management")
 public class HabitProfileController {
     
     private final HabitProfileService habitService;

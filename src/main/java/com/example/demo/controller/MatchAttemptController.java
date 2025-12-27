@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/match-attempts")
-@Tag(name = "Match Attempts", description = "Match attempt management")
+@Tag(name = "Match Attempt", description = "Match attempt management")
 public class MatchAttemptController {
     
     private final MatchAttemptService attemptService;
@@ -35,7 +35,6 @@ public class MatchAttemptController {
     
     @GetMapping("/{id}")
     public ResponseEntity<MatchAttemptRecord> getById(@PathVariable Long id) {
-        // This would need to be implemented in service if required
         return ResponseEntity.notFound().build();
     }
     

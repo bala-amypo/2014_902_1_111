@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/compatibility")
-@Tag(name = "Compatibility Scores", description = "Compatibility score management")
+@Tag(name = "Compatibility Score", description = "Compatibility score management")
 public class CompatibilityScoreController {
     
     private final CompatibilityScoreService compatService;
@@ -19,12 +19,12 @@ public class CompatibilityScoreController {
     }
     
     @PostMapping("/compute/{studentAId}/{studentBId}")
-    public ResponseEntity<CompatibilityScoreRecord> computeScore(@PathVariable Long studentAId, @PathVariable Long studentBId) {
+    public ResponseEntity<CompatibilityScoreRecord> compute(@PathVariable Long studentAId, @PathVariable Long studentBId) {
         return ResponseEntity.ok(compatService.computeScore(studentAId, studentBId));
     }
     
     @GetMapping("/student/{studentId}")
-    public ResponseEntity<List<CompatibilityScoreRecord>> getScoresForStudent(@PathVariable Long studentId) {
+    public ResponseEntity<List<CompatibilityScoreRecord>> getForStudent(@PathVariable Long studentId) {
         return ResponseEntity.ok(compatService.getScoresForStudent(studentId));
     }
     

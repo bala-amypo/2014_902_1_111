@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/room-assignments")
-@Tag(name = "Room Assignments", description = "Room assignment management")
+@Tag(name = "Room Assignment", description = "Room assignment management")
 public class RoomAssignmentController {
     
     private final RoomAssignmentService assignmentService;
